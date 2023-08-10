@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+int N, M, max, map[100][100];
+
+int main(void)
+{
+	scanf("%d %d", &N, &M);
+	
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			scanf("%d", &map[i][j]);
+		}
+	}
+	
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			int c = map[i][j], x = map[i][j];
+			for (int k = 1; k <= M; k++)
+			{
+				c += map[i][j + k];
+				c += map[i][j - k];
+				c += map[i + k][j];
+				c += map[i - k][j];
+				x += map[i - k][j + k];
+				x += map[i - k][j - k];
+				x += map[i + k][j + k];
+				x += map[i + k][j - k];
+			}
+			if (max == 0 || max < c)
+			{
+				max = c;	
+			}	
+			if (max < x)
+			{
+				max = x;
+			}
+		}
+	}
+	
+	printf("%d", max);
+	
+	return 0;
+}
