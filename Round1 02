@@ -1,0 +1,329 @@
+#include <stdio.h>
+#include <string.h>
+
+int N, M, len, c, r;
+char ch[70005], data[70005], rs[70005], dh[1500][60];
+
+int main()
+{
+	int et = 0;
+	
+	scanf("%d%d", &N, &M);
+	
+	getchar();
+	
+	while (et < N)
+	{
+		fgets(ch, sizeof(ch), stdin);
+		ch[strlen(ch)-1]='\0';
+		if (strcmp(ch, "<CENTER>") == 0)
+		{
+			while (1)
+			{
+				et++;
+				fgets(data, sizeof(data), stdin);
+				data[strlen(data)-1]='\0';
+				if (strcmp(data, "</CENTER>") == 0 || et > N)
+				{
+					break;
+				}
+				len = strlen(data);
+				if (len < M)
+				{
+					int tl = 0;
+					for (int i = 0; i < (M - len) / 2; i++)
+					{
+						printf("-");
+						tl++;
+					}
+					for (int i = 0; i < len; i++)
+					{
+						if (data[i] == ' ')
+						{
+							printf("-");
+						}
+						else
+						{
+							printf("%c", data[i]);
+						}
+						tl++;
+					}
+					if ((M - len) % 2 == 1 && tl + (M - len) / 2 < M)
+					{
+						for (int i = 0; i <= (M - len) / 2; i++)
+						{
+							printf("-");
+						}
+					}
+					else
+					{
+						for (int i = 0; i < (M - len) / 2; i++)
+						{
+							printf("-");
+						}
+					}
+					puts("");
+				}
+				else
+				{	
+					int num = 0, num2 = 0, l = 0, tl = 0;
+					for (int i = 0; i < len; i++)
+					{
+						if (data[i] == ' ')
+						{
+							for (int j = num2; j < strlen(dh[num]); j++)
+							{
+								dh[num][j] = '\0';
+							}
+							num++;
+							num2 = -1;
+						}
+						else
+						{
+							dh[num][num2] = data[i];
+						}
+						num2++;
+					}
+					for (int i = num2; i < strlen(dh[num]); i++)
+					{
+						dh[num][i] = '\0';
+					}
+					strcpy(rs, dh[0]);
+					l = strlen(rs);
+					for (int i = 1; i <= num; i++)
+					{
+						tl = 0;
+						if (l + strlen(dh[i]) + 1 > M)
+						{
+							for (int j = 0; j < (M - l) / 2; j++)
+							{
+								printf("-");
+								tl++;
+							}
+							printf("%s", rs);
+							tl += strlen(rs);
+							if ((M - l) % 2 == 1 && tl + (M - l) / 2 < M)
+							{
+								for (int j = 0; j <= (M - l) / 2; j++)
+								{
+									printf("-");
+								}
+							}
+							else
+							{
+								for (int j = 0; j < (M - l) / 2; j++)
+								{
+									printf("-");
+								}
+							}
+							puts("");
+							strcpy(rs, dh[i]);
+							l = strlen(dh[i]); 
+						}
+						else
+						{
+							l += strlen(dh[i]) + 1;
+							strcat(rs, "-");
+							strcat(rs, dh[i]);
+						}
+					}
+					tl = 0;
+					for (int i = 0; i < (M - l) / 2; i++)
+					{
+						printf("-");
+						tl++;
+					}
+					printf("%s", rs);
+					tl += strlen(rs);
+					if ((M - l) % 2 == 1 && tl + (M - l) / 2 < M)
+					{
+						for (int i = 0; i <= (M - l) / 2; i++)
+						{
+							printf("-");
+						}
+					}
+					else
+					{
+						for (int i = 0; i < (M - l) / 2; i++)
+						{
+							printf("-");
+						}
+					}
+					puts("");
+				}
+			}
+		}
+		else if (strcmp(ch, "<RIGHT>") == 0)
+		{
+			while (1)
+			{
+				et++;
+				fgets(data, sizeof(data), stdin);
+				data[strlen(data)-1]='\0';
+				if (strcmp(data, "</RIGHT>") == 0 || et > N)
+				{
+					break;
+				}
+				len = strlen(data);
+				if (len < M)
+				{
+					for (int i = 0; i < M - len; i++)
+					{
+						printf("-");
+					}
+					for (int i = 0; i < len; i++)
+					{
+						if (data[i] == ' ')
+						{
+							printf("-");
+						}
+						else
+						{
+							printf("%c", data[i]);
+						}
+					}
+					puts("");
+				}
+				else
+				{
+					int num = 0, num2 = 0, l = 0;
+					for (int i = 0; i < len; i++)
+					{
+						if (data[i] == ' ')
+						{
+							for (int j = num2; j < strlen(dh[num]); j++)
+							{
+								dh[num][j] = '\0';
+							}
+							num++;
+							num2 = -1;
+						}
+						else
+						{
+							dh[num][num2] = data[i];
+						}
+						num2++;
+					}
+					for (int i = num2; i < strlen(dh[num]); i++)
+					{
+						dh[num][i] = '\0';
+					}
+					strcpy(rs, dh[0]);
+					l = strlen(rs); 
+					for (int i = 1; i <= num; i++)
+					{
+						if (l + strlen(dh[i]) + 1 > M)
+						{
+							for (int j = 0; j < M - l; j++)
+							{
+								printf("-");
+							}
+							for (int j = 0; j < l; j++)
+							{
+								printf("%c", rs[j]);
+							}
+							puts("");
+							strcpy(rs, dh[i]);
+							l = strlen(dh[i]); 
+						}
+						else
+						{
+							l += strlen(dh[i]) + 1;
+							strcat(rs, "-");
+							strcat(rs, dh[i]);
+						}
+					}
+					for (int i = 0; i < M - l; i++)
+					{
+						printf("-");
+					}
+					printf("%s", rs);
+					puts("");
+				}
+			}
+		}
+		else
+		{
+			strcpy(data, ch);
+			len = strlen(data);
+			if (len < M)
+			{
+				for (int i = 0; i < len; i++)
+				{
+					if (data[i] == ' ')
+					{
+						printf("-");
+					}
+					else
+					{
+						printf("%c", data[i]);
+					}
+				}
+				for (int i = 0; i < M - len; i++)
+				{
+					printf("-");
+				}
+				puts("");
+			}
+			else
+			{	
+				int num = 0, num2 = 0, l = 0;
+				for (int i = 0; i < len; i++)
+				{
+					if (data[i] == ' ')
+					{
+						for (int j = num2; j < strlen(dh[num]); j++)
+						{
+							dh[num][j] = '\0';
+						}
+						num++;
+						num2 = -1;
+					}
+					else
+					{
+						dh[num][num2] = data[i];
+					}
+					num2++;
+				}
+				for (int i = num2; i < strlen(dh[num]); i++)
+				{
+					dh[num][i] = '\0';
+				}
+				strcpy(rs, dh[0]);
+				l = strlen(rs); 
+				for (int i = 1; i <= num; i++)
+				{
+					if (l + strlen(dh[i]) + 1 > M)
+					{
+						for (int j = 0; j < l; j++)
+						{
+							printf("%c", rs[j]);
+						}
+						for (int j = 0; j < M - l; j++)
+						{
+							printf("-");
+						}
+						puts("");
+						strcpy(rs, dh[i]);
+						l = strlen(dh[i]); 
+					}
+					else
+					{
+						l += strlen(dh[i]) + 1;
+						strcat(rs, "-");
+						strcat(rs, dh[i]);
+					}
+				}
+				printf("%s", rs);
+				for (int i = 0; i < M - l; i++)
+				{
+					printf("-");
+				}
+				puts("");
+			}
+		}
+		et++;
+	}
+	
+	return 0;
+}
