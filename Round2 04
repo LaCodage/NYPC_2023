@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX_N 210000
+
+int ol[MAX_N], op[MAX_N], zero[MAX_N];
+int N, UN, U[3], le[MAX_N], parent[MAX_N], pl[MAX_N];
+
+int main(void)
+{
+	scanf("%d%d", &N, &UN);
+	
+	for (int i = 2; i <= N; i++)
+	{
+		scanf("%d", &parent[i]);
+		op[i] = parent[i];
+	}
+	
+	for (int i = 1; i <= N; i++)
+	{
+		scanf("%d", &le[i]);
+		ol[i] = le[i];
+	}
+	
+	for (int uu = 0; uu <= UN; uu++)
+	{
+		int re = 0;
+		if (uu > 0)
+		{
+			for (int i = 1; i <= N; i++)
+			{
+				le[i] = ol[i];
+				parent[i] = op[i];
+			}
+			scanf("%d%d", &U[0], &U[1]);
+			le[U[0]] = U[1];
+			ol[U[0]] = U[1];
+		}
+		while (1)
+		{
+			if (memcmp(le, zero, sizeof(le)) == 0 && memcmp(pl, zero, sizeof(pl)) == 0)
+			{
+				break;
+			}
+			for (int i = 1; i <= N; i++)
+			{
+				le[i] += pl[i];
+				pl[i] = 0; 
+				if (i == 1)
+				{
+					if (le[i] > 0)
+					{
+						le[i]--;
+					}
+				}
+				else
+				{
+					if (le[i] > 0)
+					{
+						le[i]--;
+						pl[parent[i]]++;
+					}
+				}
+			}
+			re++;
+		}
+		printf("%d\n", re);
+	}
+	
+	return 0;
+}
