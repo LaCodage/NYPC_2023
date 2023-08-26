@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <string.h>
+
+int N, f, m, R;
+long long int arr[210000], few[210000], many[210000], newa[210000];
+
+int main(void)
+{
+	scanf("%d", &N);
+	
+	for (int i = 0; i < N; i++)
+	{
+		scanf("%d", &arr[i]);
+	}
+	
+	while (1)
+	{
+		for (int i = 0; i < N - 1; i++)
+		{
+			if (arr[i] <= arr[N - 1])
+			{
+				few[f++] = arr[i];
+			}
+			else if (arr[i] > arr[N - 1])
+			{
+				many[m++] = arr[i];
+			}
+		}
+		for (int i = 0; i < f; i++)
+		{
+			newa[i] = few[i];
+		}
+		newa[f] = arr[N - 1];
+		for (int i = 0; i < m; i++)
+		{
+			newa[i + f + 1] = many[i];
+		}
+		if (memcmp(arr, newa, sizeof(arr)) == 0)
+		{
+			printf("%d", R);
+			break;
+		}
+		else
+		{
+			for (int i = 0; i < N; i++)
+			{
+				arr[i] = newa[i];
+			} 
+		}
+		f = 0;
+		m = 0;
+		R++;
+	}
+	
+	return 0;
+}
